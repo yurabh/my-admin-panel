@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 
+/**
+ * @property mixed $user
+ */
 class Post extends Model
 {
 
@@ -23,7 +27,6 @@ class Post extends Model
         'is_published' => 'boolean',
         'published_at' => 'datetime',
     ];
-
 
     public function user(): BelongsTo
     {
@@ -43,5 +46,10 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function scopeRecent(Builder $query): Builder
+    {
+        return $query->orderByDesc('published_at');
     }
 }
