@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property \Illuminate\Support\HigherOrderCollectionProxy|mixed $id
+ * @method static factory(int $int)
+ */
 class Category extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'name', 'slug'
+        'name', 'slug',
     ];
 
     public function posts()
