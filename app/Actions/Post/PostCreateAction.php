@@ -2,8 +2,6 @@
 
 namespace App\Actions\Post;
 
-use App\Events\PostCreatedEvent;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Str;
 
@@ -13,14 +11,23 @@ class PostCreateAction
     {
     }
 
-    public function handle(array $data): PostResource
+    public function handle(array $data, Post $post): Post
     {
-        $data['user_id'] = auth()->id();
-        $data['slug'] = Str::slug($data['title']);
-        $data['published_at'] = $data['is_published'] ? now() : null;
-        $post = Post::query()->create($data);
-        $post->tags()->sync($data['tags'] ?? []);
-        PostCreatedEvent::dispatch($post);
+        $mappedData = $this->mappedData($post, $data);
+        $mappedData->save();
+        $tagIds = $data['tags'] ?? [];
+        $mappedData->tags()->sync($tagIds);
+        return $mappedData;
+    }
+
+    public function mappedData(Post $post, array $data): Post
+    {
+        $post->title = $data['title'];
+        $post->content = $data['content'];
+        $post->slug = Str::slug($data['slug']);
+        $post->user_id = $data['user_id'] ?? $post->user_id;
+        $post->is_published = true;
+        $post->category_id = $data['category_id'] ?? $post->category_id;
         return $post;
     }
 }
