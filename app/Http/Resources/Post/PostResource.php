@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Post;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -22,7 +21,7 @@ class PostResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(\Illuminate\Http\Request $request): array
     {
         return [
             'id' => $this->id,
@@ -41,10 +40,10 @@ class PostResource extends JsonResource
                 'name' => $tag->name,
                 'slug' => $tag->slug,
             ]),
-            'author' => [
+            'author' => $this->user ? [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
-            ],
+            ] : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
