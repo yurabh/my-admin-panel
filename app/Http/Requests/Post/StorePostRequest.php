@@ -7,14 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StorePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -23,11 +15,12 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id',
-            'is_published' => 'sometimes|boolean',
+            'content' => 'required|string|max:2000',
+            'category_id' => 'nullable|integer|max:255',
+            'slug' => 'required|string|max:255',
+            'user_id' => 'nullable|integer|max:255',
+            'tags' => 'array',
+            'is_published' => 'boolean',
         ];
     }
 }
