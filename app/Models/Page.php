@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Page extends Model
 {
@@ -13,11 +14,19 @@ class Page extends Model
         'content',
         'is_published',
         'user_id',
+        'image',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
     ];
+
+    protected $appends = ['image_url'];
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return $this->image ? Storage::disk('s3')->url($this->image) : null;
+    }
 
     public function user(): BelongsTo
     {
