@@ -18,8 +18,11 @@ class StorePageController extends Controller
     {
         try {
             $page = $action->handle($request);
+
             Log::debug('Page were stored');
+
             return PageResource::make($page);
+
         } catch (Exception $e) {
             return response()
                 ->json(['message' => 'Page was not stored',
