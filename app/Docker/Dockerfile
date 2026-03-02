@@ -1,6 +1,5 @@
 FROM php:8.2-fpm
 
-# Встановлюємо залежності та PHP-розширення
 RUN apt-get update && apt-get install -y \
     git \
     unzip \

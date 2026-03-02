@@ -1,4 +1,4 @@
-#version: '3.8'
+version: '3.8'
 services:
     app:
         build:
@@ -33,6 +33,14 @@ services:
             MYSQL_PASSWORD: secret
         ports:
             - "3306:3306"
+        networks:
+            - laravel
+
+    redis:
+        image: redis:7
+        container_name: laravel-redis
+        ports:
+            - "6379:6379"
         networks:
             - laravel
 
