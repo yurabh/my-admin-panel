@@ -1,6 +1,7 @@
 <?php
 
-//use App\Exception\SettingException;
+use App\Exceptions\PageException;
+use App\Exceptions\PostException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,13 +21,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-//        $exceptions->render(function (SettingException $e) {
-//            return response()->json([
-//                'message' => 'Settings exception was occurred: ' . $e->getMessage()
-//            ]);
-//        });
+        $exceptions->render(function (PageException $e) {
+            return response()->json([
+                'message' => 'Page exception was occurred: ' . $e->getMessage()
+            ]);
+        });
+        $exceptions->render(function (PostException $e) {
+            return response()->json([
+                'message' => 'Post exception was occurred: ' . $e->getMessage()
+            ]);
+        });
     })->create();
-
-
-
-

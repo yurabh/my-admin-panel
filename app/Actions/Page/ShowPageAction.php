@@ -2,7 +2,9 @@
 
 namespace App\Actions\Page;
 
+use App\Exceptions\PageException;
 use App\Models\Page;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -15,12 +17,14 @@ class ShowPageAction
     public function handle($id): Page|JsonResponse
     {
         try {
+
             return Page::query()->findOrFail($id);
-        } catch (\Exception $e) {
+
+        } catch (Exception $e) {
+
             Log::debug('Page not found', ['exception' => $e->getMessage()]);
-            return response()->json([
-                'message' => "Page with id {$id} not found: " . $e->getMessage()
-            ], 404);
+
+            throw new PageException($e->getMessage(), 0, $e);
         }
     }
 }

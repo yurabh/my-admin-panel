@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Page;
 
 use App\Actions\Page\StorePageAction;
+use App\Exceptions\PageException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Page\StorePageRequest;
 use App\Http\Resources\Page\PageResource;
@@ -17,6 +18,7 @@ class StorePageController extends Controller
     public function __invoke(StorePageRequest $request, StorePageAction $action)
     {
         try {
+
             $page = $action->handle($request);
 
             Log::debug('Page were stored');
@@ -24,9 +26,7 @@ class StorePageController extends Controller
             return PageResource::make($page);
 
         } catch (Exception $e) {
-            return response()
-                ->json(['message' => 'Page was not stored',
-                    'error' => $e->getMessage()], 500);
+            throw new PageException($e->getMessage(), 0, $e);
         }
     }
 }

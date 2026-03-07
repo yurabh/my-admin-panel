@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Actions\Post\PostCreateAction;
 use App\Actions\Post\PostUpdateAction;
+use App\Exceptions\PostException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
@@ -59,7 +60,7 @@ class PostController extends Controller
 
             Log::debug('Post was not found id: ' . $post->id);
 
-            return response()->json(['Post was not found: ' . $e->getMessage()], 404);
+            throw new PostException($e->getMessage(), 0, $e);
         }
         return PostResource::make($post);
     }

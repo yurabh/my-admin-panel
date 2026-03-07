@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Page;
 
+use App\Exceptions\PageException;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Exception;
@@ -28,9 +29,7 @@ class DeletePageController extends Controller
             Log::debug('Page was deleted');
 
         } catch (Exception $e) {
-            return response()->json([
-                'message' => "Page not found",
-                'error' => $e->getMessage()], 404);
+            throw new PageException($e->getMessage(), 0, $e);
         }
 
         return response()->json([
