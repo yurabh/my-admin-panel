@@ -20,9 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (SettingException $e) {
-            return response()->json([
-                'message' => 'Settings exception was occurred: ' . $e->getMessage()
-            ]);
-        });
+//        $exceptions->render(function (SettingException $e) {
+//            return response()->json([
+//                'message' => 'Settings exception was occurred: ' . $e->getMessage()
+//            ]);
+//        });
     })->create();
