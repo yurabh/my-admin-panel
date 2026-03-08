@@ -8,6 +8,7 @@ use App\Http\Controllers\Page\StorePageController;
 use App\Http\Controllers\Page\UpdatePageController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Setting\SettingController;
+use App\Http\Controllers\Tag\TagController;
 
 Route::prefix('admin')
     ->group(function () {
@@ -32,4 +33,10 @@ Route::prefix('admin')
         Route::get('/categories/{category}', [CategoryController::class, 'show']);
         Route::put('/categories/{category}', [CategoryController::class, 'update']);
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+
+        Route::get('/tags', [TagController::class, 'index']);
+        Route::post('/tags', [TagController::class, 'store']);
+        Route::get('/tags/{tag}', [TagController::class, 'show']);
+        Route::put('/tags/{tag}', [TagController::class, 'update']);
+        Route::delete('/tags/{tag}', [TagController::class, 'destroy']);
     });
