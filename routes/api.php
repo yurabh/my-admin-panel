@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -52,8 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/logout', LogoutController::class);
 
     Route::apiResource('users', UserController::class);
-    Route::post('/password/reset', ResetPasswordController::class);
+
 });
 
 Route::post('/login', AuthController::class);
 Route::post('/register', RegistrationController::class);
+Route::post('/forgot/password', ForgotPasswordController::class);
+Route::post('/password/reset', ResetPasswordController::class)
+    ->name('password.reset');
