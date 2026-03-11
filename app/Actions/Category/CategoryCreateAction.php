@@ -19,7 +19,7 @@ class CategoryCreateAction
 
         $category = Category::create($data);
 
-        Log::debug('Category was created');
+        Log::debug('Category was created with id :', [$category->id]);
 
         return $category;
     }
