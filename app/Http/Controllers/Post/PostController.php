@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['tags', 'category', 'user'])->get();
+        $posts = Post::with(['tags', 'category', 'user', 'comments'])->get();
 
         Log::debug('Posts were listed');
 
@@ -52,13 +52,11 @@ class PostController extends Controller
     public function show(string $id)
     {
         try {
-            $post = Post::with(['tags', 'category', 'user'])->findOrFail($id);
+            $post = Post::with(['tags', 'category', 'user', 'comments'])->findOrFail($id);
 
             Log::debug('Post was listed with id: ' . $post->id);
 
         } catch (Exception $e) {
-
-            Log::debug('Post was not found id: ' . $post->id);
 
             throw new PostException($e->getMessage(), 0, $e);
         }

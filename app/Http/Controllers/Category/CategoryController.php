@@ -40,8 +40,6 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category->find($category->id);
-
         $category->load(['posts']);
 
         Log::debug('Category found with id: ' . $category->id);
@@ -68,7 +66,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->posts()->exists()) {
-            return response()->json(['message' => 'Could not delete Category']);
+            return response()->json(['message' => 'Could not delete Category because posts exist for this category']);
         }
 
         $category->delete();
