@@ -8,11 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
         return UserResource::collection(User::with(['posts', 'comments', 'pages'])->get());
@@ -34,6 +37,8 @@ class UserController extends Controller
 
     public function update(RegisterRequest $request, User $user, UpdateUserAction $action)
     {
+        $this->authorize('update', $user);
+
         $user = DB::transaction(callback: fn() => $action->handle($request, $user));
         return UserResource::make($user);
     }
