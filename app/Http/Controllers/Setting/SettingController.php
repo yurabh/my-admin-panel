@@ -31,7 +31,7 @@ class SettingController extends Controller
                         'site_logo' => '/images/logo.png',
                         'maintenance_mode' => 'false'
                     ),
-                    additionalProperties: new OAT\Schema(type: 'string')
+                    additionalProperties: new OAT\AdditionalProperties(type: 'string')
                 )
             ),
             new OAT\Response(response: 401, description: 'Unauthenticated')
