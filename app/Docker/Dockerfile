@@ -20,3 +20,6 @@ COPY . .
 RUN composer install
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
