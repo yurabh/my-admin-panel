@@ -4,7 +4,27 @@ namespace App\Http\Requests\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    schema: 'SettingUpdateRequest',
+    required: ['key', 'value'],
+    properties: [
+        new OAT\Property(
+            property: 'key',
+            description: 'Unique key for the setting (ignores current record ID)',
+            type: 'string',
+            example: 'site_logo',
+            maxLength: 255
+        ),
+        new OAT\Property(
+            property: 'value',
+            description: 'The updated value for this setting',
+            type: 'string',
+            example: '/images/logo.png'
+        ),
+    ]
+)]
 class SettingUpdateRequest extends FormRequest
 {
     /**

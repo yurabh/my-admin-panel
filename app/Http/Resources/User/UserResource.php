@@ -4,7 +4,20 @@ namespace App\Http\Resources\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    schema: 'UserResource',
+    description: 'User resource schema',
+    properties: [
+        new OAT\Property(property: 'id', type: 'integer', example: 1),
+        new OAT\Property(property: 'name', type: 'string', example: 'Yuriy'),
+        new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'user@example.com'),
+        new OAT\Property(property: 'role', ref: '#/components/schemas/UserRole'),
+        new OAT\Property(property: 'created_at', type: 'string', example: '2024-03-20 15:30:00'),
+    ],
+    type: 'object'
+)]
 class UserResource extends JsonResource
 {
     /**

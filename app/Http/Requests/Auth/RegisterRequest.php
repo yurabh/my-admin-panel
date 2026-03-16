@@ -6,7 +6,19 @@ use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\Validation\Rules\Password;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    schema: 'RegisterRequest',
+    required: ['name', 'email', 'password', 'password_confirmation'],
+    properties: [
+        new OAT\Property(property: 'name', type: 'string', example: 'Yuriy', maxLength: 255),
+        new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'yuriy@example.com', maxLength: 255),
+        new OAT\Property(property: 'password', type: 'string', format: 'password', example: 'secret123'),
+        new OAT\Property(property: 'password_confirmation', type: 'string', format: 'password', example: 'secret123'),
+        new OAT\Property(property: 'role', ref: '#/components/schemas/UserRole', nullable: true),
+    ]
+)]
 class RegisterRequest extends FormRequest
 {
     /**

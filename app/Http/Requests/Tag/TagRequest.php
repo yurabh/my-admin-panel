@@ -3,7 +3,18 @@
 namespace App\Http\Requests\Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    schema: 'TagRequest',
+    required: ['name', 'slug'],
+    properties: [
+        new OAT\Property(property: 'name', type: 'string', example: 'Laravel', maxLength: 100),
+        new OAT\Property(property: 'slug', description: 'Unique slug for the tag', type: 'string', example: 'laravel'),
+        new OAT\Property(property: 'description', type: 'string', example: 'Framework related posts', nullable: true),
+        new OAT\Property(property: 'is_active', type: 'boolean', example: true),
+    ]
+)]
 class TagRequest extends FormRequest
 {
     /**
