@@ -23,3 +23,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
+
+RUN docker-php-ext-install pcntl
