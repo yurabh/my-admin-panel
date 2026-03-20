@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Setting;
 
 use App\Actions\Setting\SettingCreateAction;
 use App\Actions\Setting\SettingDeleteAction;
+use App\Actions\Setting\SettingUpdateAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Setting\SettingCreateRequest;
 use App\Http\Requests\Setting\SettingUpdateRequest;
@@ -129,6 +130,9 @@ class SettingController extends Controller
     }
 
 
+    /**
+     * @throws \Throwable
+     */
     #[OAT\Put(
         path: '/api/admin/settings/{id}',
         description: 'Updates a specific system setting by its ID and returns the updated resource.',
@@ -159,19 +163,9 @@ class SettingController extends Controller
             new OAT\Response(response: 401, description: 'Unauthenticated')
         ]
     )]
-    /**
-     * Update the specified resource in storage.
-     * @throws \Throwable
-     */
-    public function update(SettingUpdateRequest $request, Setting $setting)
+    public function update(SettingUpdateRequest $request, Setting $setting, SettingUpdateAction $action)
     {
-        $data = $request->validated();
-
-        Log::debug('Validation passed', ['id' => $setting->id]);
-
-        DB::transaction(fn() => $setting->update($data));
-
-        Log::debug('Setting updated', ['setting' => $setting->id]);
+        $setting = $action->handle($request, $setting);
 
         return SettingResource::make($setting);
     }
