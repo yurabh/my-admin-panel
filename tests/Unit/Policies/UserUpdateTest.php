@@ -5,6 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Enums\UserRole;
 use App\Models\User;
 use App\Policies\UserPolicy;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class UserUpdateTest extends TestCase
@@ -18,7 +19,7 @@ class UserUpdateTest extends TestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function an_admin_can_update_any_user(): void
     {
         $admin = $this->getMock();
@@ -34,7 +35,7 @@ class UserUpdateTest extends TestCase
     }
 
 
-    /** @test */
+    #[Test]
     public function a_regular_user_cannot_update_others(): void
     {
         $someUser = $this->getMock();
