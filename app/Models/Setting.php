@@ -18,7 +18,7 @@ class Setting extends Model
         });
     }
 
-    public static function getValue(string $key, $default = null): string
+    public static function getValue(string $key, $default = ''): string
     {
         return self::getAllCached()[$key] ?? $default;
     }
