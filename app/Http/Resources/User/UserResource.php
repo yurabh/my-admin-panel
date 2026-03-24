@@ -15,6 +15,9 @@ use OpenApi\Attributes as OAT;
         new OAT\Property(property: 'email', type: 'string', format: 'email', example: 'user@example.com'),
         new OAT\Property(property: 'role', ref: '#/components/schemas/UserRole'),
         new OAT\Property(property: 'created_at', type: 'string', example: '2024-03-20 15:30:00'),
+        new OAT\Property(property: 'posts', type: 'array', items: new OAT\Items(type: 'object')),
+        new OAT\Property(property: 'comments', type: 'array', items: new OAT\Items(type: 'object')),
+        new OAT\Property(property: 'pages', type: 'array', items: new OAT\Items(type: 'object')),
     ],
     type: 'object'
 )]
@@ -33,6 +36,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'created_at' => $this->created_at->toDateTimeString(),
+            'posts' => $this->whenLoaded('posts'),
+            'comments' => $this->whenLoaded('comments'),
+            'pages' => $this->whenLoaded('pages'),
         ];
     }
 }

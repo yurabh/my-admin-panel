@@ -6,7 +6,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Auth\LoginResource;
 use App\Jobs\NotifyAdminsAboutLoginJob;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class LoginAction
 {
@@ -19,6 +21,12 @@ class LoginAction
         $data = $request->validated();
 
         $user = User::where('email', $data['email'])->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => [__('auth.failed')],
+            ]);
+        }
 
         $token = $accessToken->handle($user);
 
