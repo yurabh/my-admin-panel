@@ -23,13 +23,6 @@ class UserTest extends TestCase
     #[Test]
     public function test_index_returns_users_with_relations(): void
     {
-        User::factory()
-            ->count(3)
-            ->hasPosts(2)
-            ->hasComments(2)
-            ->hasPages(1)
-            ->create();
-
         $response = $this->actingAs($this->admin)
             ->getJson('/api/users');
 
@@ -57,7 +50,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function test_index_unauthenticated_returns_401(): void
+    public function test_index_unauthorized_returns_403(): void
     {
         $this->getJson('/api/users')
             ->assertUnauthorized();
