@@ -50,7 +50,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function test_index_unauthorized_returns_403(): void
+    public function test_index_returns_401_if_unauthenticated(): void
     {
         $this->getJson('/api/users')
             ->assertUnauthorized();
