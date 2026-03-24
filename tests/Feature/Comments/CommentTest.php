@@ -79,7 +79,7 @@ class CommentTest extends TestCase
 
         Log::shouldReceive('debug')->atLeast()->once();
 
-        $this->actingAs(User::factory()->create())
+        $this->actingAs($this->user)
             ->getJson("/api/comments/{$comment->id}")
             ->assertOk()
             ->assertJsonPath('data.id', $comment->id)
@@ -106,7 +106,7 @@ class CommentTest extends TestCase
     #[Test]
     public function test_store_validation_fails(): void
     {
-        $this->actingAs(User::factory()->create())
+        $this->actingAs($this->user)
             ->postJson('/api/comments', [])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['post_id', 'user_id', 'content']);
