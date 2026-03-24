@@ -1,4 +1,4 @@
 run_tests:
   script:
-    -make:test
+    - make:test
 
