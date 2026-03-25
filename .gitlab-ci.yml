@@ -7,6 +7,8 @@ variables:
   APP_ENV: testing
   DB_CONNECTION: sqlite
   DB_DATABASE: ":memory:"
+  IMAGE_NAME: yurabh1990/admin-panel-repository
+  IMAGE_TAG: php.8.2
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -17,7 +19,6 @@ cache:
 app_test:
   stage: test
   image: php:8.2
-
   before_script:
     # Clear PHPUnit cache
     - rm -rf .phpunit.cache
@@ -40,9 +41,8 @@ app_test:
     # Run database migrations
     - php artisan migrate --force
 
-    # 3. Settings env
+    # Copy test .env file
     - cp $TEST_ENV_FILE .env
-
   script:
     - php artisan test
 
@@ -50,13 +50,15 @@ app_test:
 php_build:
   stage: build
   when: manual
+  image: docker:20.16.10
+  services:
+    - docker:20.16.10-dind
   variables:
-    IMAGE_NAME: yurabh1990/admin-panel-repository
-    IMAGE_TAG: php.8.2
+    DOCKER_TLS_CERTDIR: "/certs"
   rules:
 #    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
     - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
   script:
-    - docker build -f Docker/php/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker build -f app/Docker/php/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
