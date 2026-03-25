@@ -58,7 +58,7 @@ php_build:
   rules:
 #    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
-    - docker login -u $DOCKER_USER -p $REGISTRY_PASSWORD
+    - echo "$REGISTRY_PASSWORD" | - docker login -u "$DOCKER_USER" --password-stdin
   script:
     - docker build -f app/Docker/php/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
