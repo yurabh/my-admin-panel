@@ -4,7 +4,6 @@ stages:
   - deploy
 
 variables:
-  # Налаштовуємо базу в пам'яті, щоб не піднімати MySQL
   APP_ENV: testing
   DB_CONNECTION: sqlite
   DB_DATABASE: ":memory:"
@@ -22,16 +21,16 @@ app_test:
     # Clear PHPUnit cache
     - rm -rf .phpunit.cache
 
-    # 1. Оновлюємо систему (якщо треба розширення)
+    # Update system packages and install build dependencies
     - apt-get update && apt-get install -y git zip unzip  libzip-dev
 
-    # Встановлюємо PHP розширення, необхідні для Laravel (pdo_mysql, zip)
+    # Install PHP extensions required for Laravel (pdo_mysql, zip)
     - docker-php-ext-install pdo_mysql zip
 
-    # Встановлюємо Composer (офіційний спосіб для Docker-образів)
+    # Install Composer binary via the official installer
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-    # 2. ВСТАНОВЛЮЄМО ЗАЛЕЖНОСТІ (це створить файл autoload.php)
+    # Install PHP dependencies via Composer
     - composer install --no-interaction --prefer-dist --optimize-autoloader
 
     # Clear Laravel cached files
@@ -40,7 +39,7 @@ app_test:
     # Run database migrations
     - php artisan migrate --force
 
-    # 3. Налаштовуємо оточення
+    # 3. Settings env
     - cp .env.example .env
     - php artisan key:generate
 
