@@ -4,10 +4,10 @@ run_tests:
   before_script:
     # 1. Оновлюємо систему (якщо треба розширення)
     - apt-get update && apt-get install -y git zip unzip
-    -
+
     # 2. ВСТАНОВЛЮЄМО ЗАЛЕЖНОСТІ (це створить файл autoload.php)
     - composer install --no-interaction --prefer-dist --optimize-autoloader
-    -
+
     # 3. Налаштовуємо оточення
     - cp .env.example .env
     - php artisan key:generate
