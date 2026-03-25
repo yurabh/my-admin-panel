@@ -42,7 +42,6 @@ app_test:
 
     # 3. Settings env
     - cp $TEST_ENV_FILE .env
-    - php artisan key:generate
 
   script:
     - php artisan test
