@@ -23,6 +23,9 @@ app_test:
     # Clear PHPUnit cache
     - rm -rf .phpunit.cache
 
+    # Copy test .env file
+    - cp $TEST_ENV_FILE .env
+
     # Update system packages and install build dependencies
     - apt-get update && apt-get install -y git zip unzip  libzip-dev
 
@@ -40,9 +43,6 @@ app_test:
 
     # Run database migrations
     - php artisan migrate --force
-
-    # Copy test .env file
-    - cp $TEST_ENV_FILE .env
   script:
     - php artisan test
 
