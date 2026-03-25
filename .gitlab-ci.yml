@@ -45,3 +45,4 @@ app_test:
 
   script:
     - php artisan test
+
