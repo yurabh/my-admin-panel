@@ -11,7 +11,8 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .phpstan.cache/
+    - vendor/
+    - storage/framework/cache/
 
 app_test:
   stage: test
