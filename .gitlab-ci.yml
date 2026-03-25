@@ -1,6 +1,11 @@
 run_tests:
   image: php:8.2
 
+  variables:
+      # Налаштовуємо базу в пам'яті, щоб не піднімати MySQL
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+
   before_script:
     # 1. Оновлюємо систему (якщо треба розширення)
     - apt-get update && apt-get install -y git zip unzip  libzip-dev
