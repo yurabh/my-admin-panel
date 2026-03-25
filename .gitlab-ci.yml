@@ -40,9 +40,6 @@ app_test:
     # Run database migrations
     - php artisan migrate --force
 
-    # Seed database
-    - php artisan db:seed
-
     # 3. Налаштовуємо оточення
     - cp .env.example .env
     - php artisan key:generate
