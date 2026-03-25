@@ -17,6 +17,7 @@ cache:
 app_test:
   stage: test
   image: php:8.2
+
   before_script:
     # Clear PHPUnit cache
     - rm -rf .phpunit.cache
