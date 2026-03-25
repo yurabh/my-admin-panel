@@ -46,3 +46,17 @@ app_test:
   script:
     - php artisan test
 
+
+php_build:
+  stage: build
+  when: manual
+  variables:
+    IMAGE_NAME: yurabh1990/admin-panel-repository
+    IMAGE_TAG: php.8.2
+  rules:
+#    - if: $CI_COMMIT_BRANCH == "main"
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+  script:
+    - docker build -f Docker/php/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
