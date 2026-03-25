@@ -61,5 +61,5 @@ php_build:
     - echo "$REGISTRY_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   script:
     - find app -name "*ocker*"
-    - docker build -f app/Docker/php/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker build -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
