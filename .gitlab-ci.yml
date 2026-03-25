@@ -54,7 +54,7 @@ php_build:
   services:
     - docker:24.0.5-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: ""
   rules:
 #    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
