@@ -50,9 +50,9 @@ app_test:
 php_build:
   stage: build
   when: manual
-  image: docker:20.16.10
+  image: docker:24.0.5
   services:
-    - docker:20.16.10-dind
+    - docker:24.0.5-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   rules:
