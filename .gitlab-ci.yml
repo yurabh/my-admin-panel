@@ -20,7 +20,7 @@ run_tests:
     - composer install --no-interaction --prefer-dist --optimize-autoloader
 
     # 3. Налаштовуємо оточення
-    - cp .env.example .env
+    - cp .env.example
     - php artisan key:generate
 
   script:
