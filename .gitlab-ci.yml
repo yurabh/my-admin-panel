@@ -1,4 +1,5 @@
 run_tests:
+  image: php:8.4
   script:
     - php artisan test
 
