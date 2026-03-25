@@ -10,11 +10,11 @@ run_tests:
     # 1. Оновлюємо систему (якщо треба розширення)
     - apt-get update && apt-get install -y git zip unzip  libzip-dev
 
-    # Встановлюємо Composer (офіційний спосіб для Docker-образів)
-    - curl -sS https://getcomposer.org | php -- --install-dir=/usr/local/bin --filename=composer
-
     # Встановлюємо PHP розширення, необхідні для Laravel (pdo_mysql, zip)
     - docker-php-ext-install pdo_mysql zip
+    -
+    # Встановлюємо Composer (офіційний спосіб для Docker-образів)
+    - curl -sS https://getcomposer.org | php -- --install-dir=/usr/local/bin --filename=composer
 
     # 2. ВСТАНОВЛЮЄМО ЗАЛЕЖНОСТІ (це створить файл autoload.php)
     - composer install --no-interaction --prefer-dist --optimize-autoloader
