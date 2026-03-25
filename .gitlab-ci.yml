@@ -5,6 +5,7 @@ stages:
 
 variables:
   # Налаштовуємо базу в пам'яті, щоб не піднімати MySQL
+  APP_ENV: testing
   DB_CONNECTION: sqlite
   DB_DATABASE: ":memory:"
 
