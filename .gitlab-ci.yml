@@ -17,7 +17,6 @@ app_test:
   stage: test
   image: php:8.2
   before_script:
-
     # Clear PHPUnit cache
     - rm -rf .phpunit.cache
 
@@ -40,7 +39,7 @@ app_test:
     - php artisan migrate --force
 
     # 3. Settings env
-    - cp .env.example .env
+    - cp $TEST_ENV_FILE .env
     - php artisan key:generate
 
   script:
