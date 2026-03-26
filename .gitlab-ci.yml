@@ -72,8 +72,7 @@ deploy_aws:
   when: manual
   script:
     # 1. Оновлення сервісу (Деплой коду)
-    - aws ecs update-service --cluster admin-panel-yurabh --service admin-panel-yurabh --force-new-deployment
-
+    - aws ecs update-service --cluster admin-panel-yurabh --service admin-panel-yurabh --force-new-deployment --region eu-central-1
     # 2. Запуск міграцій
     # ЗАМІНИ 'subnet-xxxxxx' на реальний ID з твоєї консолі AWS (Networking)
     - |
