@@ -66,17 +66,23 @@ php_build:
 
 deploy_aws:
   stage: deploy
-  image: amazon/aws-cli:latest
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""] # Це виправляє помилку "invalid choice 'sh'"
   when: manual
-#  rules:
-#    - if: $CI_COMMIT_BRANCH == "deploy"
   script:
-    # 1. Оновлюємо сервіс (AWS сам піде в Docker Hub і стягне новий образ)
-    - aws ecs update-service --cluster admin-panel-yurabh  --service admin-panel-yurabh --force-new-deployment
+    # 0. Налаштування доступу (якщо ти не додав їх у змінні GitLab, зроби це)
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
 
-    # 2. Окремий запуск міграцій (запускається як одноразова задача)
+    # 1. Оновлення сервісу (Деплой коду)
+    - aws ecs update-service --cluster admin-panel-yurabh --service admin-panel-yurabh --force-new-deployment
+
+    # 2. Запуск міграцій
+    # ЗАМІНИ 'subnet-xxxxxx' на реальний ID з твоєї консолі AWS (Networking)
     - |
-      aws ecs run-task --cluster admin-panel-yurabh --task-definition admin-panel-yurabh  \
+      aws ecs run-task --cluster admin-panel-yurabh --task-definition admin-panel-yurabh \
       --overrides '{"containerOverrides": [{"name": "api", "command": ["php", "artisan", "migrate", "--force"]}]}' \
       --launch-type FARGATE \
-      --network-configuration '{"awsvpcConfiguration": {"subnets": ["твій-субнет"], "assignPublicIp": "ENABLED"}}'
+      --network-configuration '{"awsvpcConfiguration": {"subnets": ["subnet-xxxxxx"], "assignPublicIp": "ENABLED"}}'
