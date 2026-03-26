@@ -64,10 +64,6 @@ php_build:
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 
-
-
-
-
 deploy_aws:
   stage: deploy
   image: amazon/aws-cli:latest
