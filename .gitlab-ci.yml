@@ -60,6 +60,28 @@ php_build:
   before_script:
     - echo "$REGISTRY_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   script:
-    - find app -name "*ocker*"
-    - docker build -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker build --target deploy -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+dev_deploy:
+  stage: deploy
+  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == "deploy"
+  before_script:
+
+deploy_aws:
+  stage: deploy
+  image: amazon/aws-cli:latest
+  when: manual
+  script:
+    # 1. Оновлюємо сервіс (AWS сам піде в Docker Hub і стягне новий образ)
+    - aws ecs update-service --cluster admin-panel-yurabh  --service admin-panel-yurabh --force-new-deployment
+
+    # 2. Окремий запуск міграцій (запускається як одноразова задача)
+    - |
+      aws ecs run-task --cluster admin-panel-yurabh --task-definition admin-panel-yurabh  \
+      --overrides '{"containerOverrides": [{"name": "api", "command": ["php", "artisan", "migrate", "--force"]}]}' \
+      --launch-type FARGATE \
+      --network-configuration '{"awsvpcConfiguration": {"subnets": ["твій-субнет"], "assignPublicIp": "ENABLED"}}'
