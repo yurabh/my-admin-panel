@@ -64,17 +64,16 @@ php_build:
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 
-dev_deploy:
-  stage: deploy
-  when: manual
-  rules:
-    - if: $CI_COMMIT_BRANCH == "deploy"
-  before_script:
+
+
+
 
 deploy_aws:
   stage: deploy
   image: amazon/aws-cli:latest
   when: manual
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == "deploy"
   script:
     # 1. Оновлюємо сервіс (AWS сам піде в Docker Hub і стягне новий образ)
     - aws ecs update-service --cluster admin-panel-yurabh  --service admin-panel-yurabh --force-new-deployment
