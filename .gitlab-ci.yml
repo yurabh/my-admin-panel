@@ -63,6 +63,7 @@ php_build:
     - docker build --target deploy -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
+
 deploy_aws:
   stage: deploy
   image:
