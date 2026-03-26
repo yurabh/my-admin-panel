@@ -73,7 +73,6 @@ nginx_build:
   before_script:
     - echo "$REGISTRY_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   script:
-    # Просто вказуємо шлях до твого готового файлу
     - docker build -t $IMAGE_NAME:$NGINX_IMAGE_TAG -f app/Docker/nginx/Dockerfile .
     - docker push $IMAGE_NAME:$NGINX_IMAGE_TAG
 
@@ -82,13 +81,10 @@ deploy_aws:
   stage: deploy
   image:
     name: amazon/aws-cli:latest
-    entrypoint: [""]
+    entrypoint: [ "" ]
   when: manual
   script:
-    # 1. Оновлення сервісу (Деплой коду)
     - aws ecs update-service --cluster admin-panel-yurabh --service admin-panel-yurabh --force-new-deployment --region eu-north-1
-    # 2. Запуск міграцій
-    # ЗАМІНИ 'subnet-xxxxxx' на реальний ID з твоєї консолі AWS (Networking)
     - |
       aws ecs run-task --cluster admin-panel-yurabh --task-definition api \
       --overrides '{"containerOverrides": [{"name": "api", "command": ["php", "artisan", "migrate", "--force"]}]}' \
