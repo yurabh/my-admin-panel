@@ -76,7 +76,7 @@ deploy_aws:
     # 2. Запуск міграцій
     # ЗАМІНИ 'subnet-xxxxxx' на реальний ID з твоєї консолі AWS (Networking)
     - |
-      aws ecs run-task --cluster admin-panel-yurabh --task-definition admin-panel-yurabh \
+      aws ecs run-task --cluster admin-panel-yurabh --task-definition api \
       --overrides '{"containerOverrides": [{"name": "api", "command": ["php", "artisan", "migrate", "--force"]}]}' \
       --launch-type FARGATE \
       --network-configuration '{"awsvpcConfiguration": {"subnets": ["subnet-xxxxxx"], "assignPublicIp": "ENABLED"}}'
