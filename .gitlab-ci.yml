@@ -79,4 +79,4 @@ deploy_aws:
       aws ecs run-task --cluster admin-panel-yurabh --task-definition api \
       --overrides '{"containerOverrides": [{"name": "api", "command": ["php", "artisan", "migrate", "--force"]}]}' \
       --launch-type FARGATE \
-      --network-configuration '{"awsvpcConfiguration": {"subnets": ["subnet-xxxxxx"], "assignPublicIp": "ENABLED"}}'
+      --network-configuration '{"awsvpcConfiguration": {"subnets": ["subnet-0cda46c670efa4c45", "subnet-00a48dfd343fbe42d"], "assignPublicIp": "ENABLED"}}'
