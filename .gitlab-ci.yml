@@ -9,6 +9,7 @@ variables:
   DB_DATABASE: ":memory:"
   IMAGE_NAME: yurabh1990/admin-panel-repository
   IMAGE_TAG: php.8.2
+  NGINX_IMAGE_TAG: nginx.latest
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -62,6 +63,19 @@ php_build:
   script:
     - docker build --target deploy -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+nginx_build:
+  stage: build
+  when: manual
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  before_script:
+    - echo "$REGISTRY_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+  script:
+    # Просто вказуємо шлях до твого готового файлу
+    - docker build -t $IMAGE_NAME:$NGINX_IMAGE_TAG -f app/Docker/nginx/Dockerfile .
+    - docker push $IMAGE_NAME:$NGINX_IMAGE_TAG
 
 
 deploy_aws:
