@@ -56,13 +56,12 @@ php_build:
     - docker:24.0.5-dind
   variables:
     DOCKER_TLS_CERTDIR: ""
-  rules:
-#    - if: $CI_COMMIT_BRANCH == "main"
   before_script:
     - echo "$REGISTRY_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
   script:
     - docker build --target deploy -f app/Docker/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
 
 nginx_build:
   stage: build
@@ -83,6 +82,8 @@ deploy_aws:
     name: amazon/aws-cli:latest
     entrypoint: [ "" ]
   when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
   script:
     - aws ecs update-service --cluster admin-panel-yurabh --service admin-panel-yurabh --force-new-deployment --region eu-north-1
     - |
