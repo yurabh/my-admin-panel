@@ -25,7 +25,6 @@ class PostController extends Controller
 {
     use AuthorizesRequests;
 
-
     #[OAT\Get(
         path: '/api/admin/posts',
         description: 'Returns a collection of posts with related tags, categories, and users.',
