@@ -100,10 +100,12 @@ class Post extends Model
                 $q->where('is_published', (bool)$filters['is_published']);
             })
             ->when($filters['date_from'] ?? null, function ($q, $date) {
-                $q->whereDate('published_at', '>=', $date);
+                $q->whereNotNull('published_at')
+                    ->whereDate('published_at', '>=', $date);
             })
             ->when($filters['date_to'] ?? null, function ($q, $date) {
-                $q->whereDate('published_at', '<=', $date);
+                $q->whereNotNull('published_at')
+                    ->whereDate('published_at', '<=', $date);
             });
     }
 }
