@@ -286,7 +286,7 @@ class PostController extends Controller
             )
         ]
     )]
-    public function getPostsSortedByDatePublishedAt(PostSortAction $action)
+    public function getSortedByDatePublishedAt(PostSortAction $action)
     {
         $posts = $action->handle();
 
@@ -328,7 +328,7 @@ class PostController extends Controller
             )
         ]
     )]
-    public function getPostsByCategoryId(int $categoryId, PostByCategoryAction $action)
+    public function getByCategoryId(int $categoryId, PostByCategoryAction $action)
     {
         $posts = $action->handle($categoryId);
 
@@ -352,7 +352,7 @@ class PostController extends Controller
             new OAT\Response(response: 200, description: 'Paginated posts', content: new OAT\JsonContent(type: 'object'))
         ]
     )]
-    public function filterPostsByCategoryIdAndDates(Request $request, PostByCategoryIdAndDateFilterAction $action)
+    public function filter(Request $request, PostByCategoryIdAndDateFilterAction $action)
     {
         $filters = $request->only(['category_id', 'is_published', 'date_from', 'date_to']);
 
